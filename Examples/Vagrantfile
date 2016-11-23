@@ -1,0 +1,100 @@
+# Install plugin:
+#   - vagrant plugin install vagrant-hostmanager
+
+
+VAGRANTFILE_API_VERSION = "2"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  config.vm.box = "puppetlabs/centos-7.2-64-puppet"
+  config.vm.box_version = "1.0.1"
+
+  config.vm.provider "virtualbox" do |vb|
+    vb.cpus = 2
+    vb.memory = 1024
+    vb.customize ["modifyvm", :id, "--ioapic", "on"]
+    vb.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
+    vb.customize ["modifyvm", :id, "--natdnsproxy1", "on"]
+    vb.customize ["modifyvm", :id, "--nictype1", "virtio"]
+    vb.customize ["modifyvm", :id, "--nictype2", "virtio"]
+    vb.customize ["modifyvm", :id, "--vram", "12"]
+  end
+
+  config.vm.network "private_network", type: "dhcp"
+
+  config.hostmanager.enabled = true
+  config.hostmanager.include_offline = true
+  config.hostmanager.ip_resolver = proc do |vm, resolving_vm|
+    if vm.id
+      `VBoxManage guestproperty get #{vm.id} "/VirtualBox/GuestInfo/Net/1/V4/IP"`.split()[1]
+    end
+  end
+
+  config.vm.define :master do |srv|
+    srv.vm.hostname = "master.local"
+#    srv.vm.synced_folder ".", "/vagrant", disabled: true
+    srv.vm.synced_folder "vagrant_shared/", "/vagrant/shared", create: true
+#    srv.hostmanager.aliases = %w(puppet.local puppet)
+    srv.ssh.forward_agent = true
+    srv.vm.provision :hostmanager
+    srv.vm.provision :shell, :inline => 'cp /vagrant/shared/docker.repo /etc/yum.repos.d/docker.repo'
+    srv.vm.provision :shell, :inline => 'yum -y install docker-engine'
+    srv.vm.provision :shell, :inline => 'MY_IP=$(/vagrant/shared/get_my_ip.sh); cat /vagrant/shared/docker.service | sed "s/___CONSUL_IP___/$MY_IP/" | sed "s/___ADVERTISE_IP___/$MY_IP/" >  /usr/lib/systemd/system/docker.service'
+    srv.vm.provision :shell, :inline => 'systemctl start docker.service'
+    srv.vm.provision :shell, :inline => 'systemctl enable docker.service'
+    srv.vm.provision :shell, :inline => 'bash /vagrant/shared/run_master.sh'
+  end
+
+  config.vm.define "node-c7-a", primary: true do |cl|
+#    cl.vm.box = "puppetlabs/centos-7.2-64-nocm"
+#    cl.vm.box_version = "1.0.1"
+    cl.vm.hostname = "node-c7-a.local"
+    cl.vm.synced_folder "vagrant_shared/", "/vagrant/shared", disabled: false
+    cl.ssh.forward_agent = true
+    cl.vm.provision :hostmanager
+    cl.vm.provision :shell, :inline => 'cp /vagrant/shared/docker.repo /etc/yum.repos.d/docker.repo'
+    cl.vm.provision :shell, :inline => 'yum -y install docker-engine'
+    cl.vm.provision :shell, :inline => 'MY_IP=$(/vagrant/shared/get_my_ip.sh); cat /vagrant/shared/docker.service | sed "s/___CONSUL_IP___/$MY_IP/" | sed "s/___ADVERTISE_IP___/$MY_IP/" >  /usr/lib/systemd/system/docker.service'
+    cl.vm.provision :shell, :inline => 'systemctl start docker.service'
+    cl.vm.provision :shell, :inline => 'systemctl enable docker.service'
+    cl.vm.provision :shell, :inline => 'bash /vagrant/shared/run_slave.sh'
+
+#    cl.vm.provision :shell, :inline => "/bin/grep -qe 'Defaults.*env_keep+=SSH_AUTH_SOCK' /etc/sudoers || echo 'Defaults    env_keep+=SSH_AUTH_SOCK' >>  /etc/sudoers"
+#    cl.vm.provision :shell, :inline => "mkdir -p /etc/facter/facts.d/"
+#    cl.vm.provision :shell, :inline => "cp /vagrant/fact.yaml /etc/facter/facts.d/"
+#    cl.vm.provision "puppet" do |puppet|
+#      puppet.manifests_path = "provision/manifests"
+#      puppet.manifest_file  = "node-c6.pp"
+#      puppet.module_path = "provision/modules"
+#    end
+  end
+
+  config.vm.define "node-c7-b", primary: false do |cl|
+#    cl.vm.box = "puppetlabs/centos-7.2-64-nocm"
+#    cl.vm.box_version = "1.0.1"
+    cl.vm.hostname = "node-c7-b.local"
+    cl.vm.synced_folder "vagrant_shared/", "/vagrant/shared", disabled: false
+    cl.ssh.forward_agent = true
+    cl.vm.provision :hostmanager
+    cl.vm.provision :shell, :inline => 'cp /vagrant/shared/docker.repo /etc/yum.repos.d/docker.repo'
+    cl.vm.provision :shell, :inline => 'yum -y install docker-engine'
+    cl.vm.provision :shell, :inline => 'MY_IP=$(/vagrant/shared/get_my_ip.sh); cat /vagrant/shared/docker.service | sed "s/___CONSUL_IP___/$MY_IP/" | sed "s/___ADVERTISE_IP___/$MY_IP/" >  /usr/lib/systemd/system/docker.service'
+    cl.vm.provision :shell, :inline => 'systemctl start docker.service'
+    cl.vm.provision :shell, :inline => 'systemctl enable docker.service'
+    cl.vm.provision :shell, :inline => 'bash /vagrant/shared/run_slave.sh'
+
+#    cl.vm.provision :shell, :inline => "/bin/grep -qe 'Defaults.*env_keep+=SSH_AUTH_SOCK' /etc/sudoers || echo 'Defaults    env_keep+=SSH_AUTH_SOCK' >>  /etc/sudoers"
+#    cl.vm.provision :shell, :inline => "cp /vagrant/RPM-GPG-KEY-puppetlabs /etc/pki/rpm-gpg/"
+#    cl.vm.provision :shell, :inline => "cp /vagrant/*.repo /etc/yum.repos.d/"
+#    cl.vm.provision :shell, :inline => "yum install -y puppet"
+#    cl.vm.provision :shell, :inline => "mkdir -p /etc/facter/facts.d/"
+#    cl.vm.provision :shell, :inline => "cp /vagrant/fact.yaml /etc/facter/facts.d/"
+#    cl.vm.network :forwarded_port, guest: 80, host: 4480
+#    cl.vm.provision "puppet" do |puppet|
+#      puppet.manifests_path = "provision/manifests"
+#      puppet.manifest_file  = "node-c7.pp"
+#      puppet.module_path = "provision/modules"
+#    end
+  end
+
+end
+
