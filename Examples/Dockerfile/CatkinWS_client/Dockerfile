@@ -1,4 +1,4 @@
-FROM ubuntu
+FROM ubuntu:14.04
 
 RUN sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
 RUN sudo apt-key adv --keyserver hkp://ha.pool.sks-keyservers.net:80 --recv-key 0xB01FA116
@@ -25,6 +25,6 @@ RUN /bin/bash -c 'ls /catkin_ws/src; source /opt/ros/jade/setup.bash; cd /catkin
 #ENTRYPOINT source /opt/ros/jade/setup.bash; roscore
 #ENTRYPOINT /bin/bash
 
-CMD /bin/bash -c 'ls /catkin_ws/src/ >&2; source /catkin_ws/devel/setup.bash; cd /catkin_ws; catkin_make; roslaunch /launch/entrypoint.launch'
+CMD /bin/bash -c 'ls /catkin_ws/src/ >&2; source /catkin_ws/devel/setup.bash; cd /catkin_ws; catkin_make >&2; roslaunch --wait /launch/entrypoint.launch'
 #CMD /bin/bash -c 'ls /catkin_ws/src/ >&2'
 

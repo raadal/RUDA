@@ -1,0 +1,28 @@
+version: '2'
+services:
+  roscore:
+    build: ./ROScore/
+    ports: 
+      - "11311:11311"
+
+  gmapping-slam:
+    build: ./SLAMgmapping
+    volumes: 
+      - ./catkin_workspace:/workspaces/catking_workspace
+    depends_on: 
+      - roscore
+    environment:
+      - ROS_MASTER_URI=http://roscore:11311/
+    #image: roscore
+    
+  catkin_ws_client:
+    build: ./CatkinWS_client/
+    volumes: 
+      - /home/Ubuntu_12.04_ROS_Hydro/home/ros/catkin_ws/src/mvcr_robot_description/:/catkin_ws/src/mvcr_robot_description/
+      - /home/Ubuntu_12.04_ROS_Hydro/home/ros/catkin_ws/src/mvcr_hal/:/catkin_ws/src/mvcr_hal/
+      - /home/Ubuntu_12.04_ROS_Hydro/home/ros/catkin_ws/src/mvcr_odometry/:/catkin_ws/src/mvcr_odometry
+      - /home/Ubuntu_12.04_ROS_Hydro/home/ros/catkin_ws/src/tb_master_ntb/tb_bringup/:/catkin_ws/src/tb_master_ntb/tb_bringup
+    environment:
+      - ROS_MASTER_URI=http://roscore:11311/
+      - "constraint:node==node-c7-a.local"
+
