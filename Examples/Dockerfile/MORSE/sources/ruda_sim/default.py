@@ -46,6 +46,27 @@ keyboard.properties(ControlType = 'Position')
 pose = Pose()
 robot.append(pose)
 
+
+#LIDAR
+lidar = Sick()
+#lidar.properties(resolution = 5) #what do these parameters mean?
+#lidar.properties(scan_window=90)
+lidar.properties(laser_range= 30.0)
+robot.append(lidar)
+
+
+#cameras:
+# creates a new instance of the sensor
+videocamera_front = VideoCamera()
+videocamera_front.translate(0.6, 0, 0)
+videocamera_rear = VideoCamera()
+videocamera_rear.translate(-0.6, 0, 0)
+videocamera_rear.rotate(0, 3.14,  0)
+
+robot.append(videocamera_front)
+robot.append(videocamera_rear)
+
+
 # To ease development and debugging, we add a socket interface to our robot.
 #
 # Check here: http://www.openrobots.org/morse/doc/stable/user/integration.html 
@@ -54,6 +75,11 @@ robot.add_default_interface('socket')
 pose.add_stream('socket')
 pose.add_service('socket')
 motion.add_service('socket')
+
+
+
+# Add default interface for our robot's components
+robot.add_default_interface('ros')
 
 
 # set 'fastmode' to True to switch to wireframe mode

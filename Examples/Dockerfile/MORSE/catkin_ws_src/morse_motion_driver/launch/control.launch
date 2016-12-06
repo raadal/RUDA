@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<launch>
+  <!-- <node name="talker" pkg="rospy_tutorials" type="talker"  /> -->
+  <param name="/mvcr/encoder_distance_calibration" value="5000000" type="double" />
+  <param name="/mvcr/encoder_speed_calibration" value="5.0" type="double" />
+  <param name="/mvcr/encoder_turning_compensation" value="1.5" type="double" />
+
+  <!-- upload robot description to parameter server -->
+  <include file="$(find mvcr_robot_description)/launch/upload_robot.launch"/>
+  <!-- Laser driver -->
+  <include file="$(find tb_bringup)/components/laser.launch"/>
+  <!-- starting HAL -->
+  <!-- HAL se spousti mimo chroot -->
+  <!-- <node name="mvcr_robot_HAL" pkg="mvcr_all" type="start_HAL.sh" respawn="true" /> -->
+  <!-- odometry driver  - uses wrapper that sets LD_LIBRARY_PATH properly -->
+    <!-- <node name="odometry_node" pkg="mvcr_odometry" type="start_odometry.sh" respawn="true" /> -->
+  <include file="$(find mvcr_odometry)/launch/odometry.launch"/>
+
+  <!-- SLAM -->
+  <include file="$(find tb_navigation)/launch/slam.launch"/>
+
+  <!-- Kinect driver -->
+  <!-- <include file="$(find tb_bringup)/components/kinect.launch"/> -->
+
+  <!-- Fake laser -->
+  <!-- <include file="$(find tb_bringup)/components/laser_fake.launch"/> -->
+
+
+</launch>
+
