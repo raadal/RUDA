@@ -61,7 +61,7 @@ videocamera_front = VideoCamera()
 videocamera_front.translate(0.6, 0, 0)
 videocamera_rear = VideoCamera()
 videocamera_rear.translate(-0.6, 0, 0)
-videocamera_rear.rotate(0, 3.14,  0)
+videocamera_rear.rotate(3.1415927, 0,  0)
 
 robot.append(videocamera_front)
 robot.append(videocamera_rear)
