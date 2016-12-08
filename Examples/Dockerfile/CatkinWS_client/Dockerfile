@@ -7,7 +7,7 @@ RUN apt-get update
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y ros-kinetic-ros-base
 
 #build tools
-RUN apt-get update && apt-get install -y build-essential ros-kinetic-tf2-msgs ros-kinetic-tf libdbus-1-dev libopencv-dev ros-kinetic-urdf ros-kinetic-urdf-parser-plugin liburdfdom-dev ros-kinetic-xacro libsdl-dev ros-kinetic-robot-state-publisher
+RUN apt-get update && apt-get install -y build-essential ros-kinetic-tf2-msgs ros-kinetic-tf libdbus-1-dev libopencv-dev ros-kinetic-urdf ros-kinetic-urdf-parser-plugin liburdfdom-dev ros-kinetic-xacro libsdl-dev ros-kinetic-robot-state-publisher libssl-dev
 
 #add entrypoint launchfile
 RUN mkdir /launch
