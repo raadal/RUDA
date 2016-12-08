@@ -31,7 +31,7 @@ RUN  git clone https://github.com/ros-infrastructure/catkin_pkg.git -b 0.1.9 && 
 #ENTRYPOINT /bin/bash
 
 #install other stuff
-RUN apt-get install -y libtool subversion autoconf-archive g++ libgsl0-dev libpng-dev libjpeg-dev  libv4l-dev openjdk-7-jre libdc1394-22-dev qt4-dev-tools libqt4-dev libqt4-core libqt4-gui libgps-dev  #libgtk+2.0-dev 
+RUN apt-get install -y libtool subversion autoconf-archive g++ libgsl0-dev libpng-dev libjpeg-dev  libv4l-dev openjdk-7-jre libdc1394-22-dev qt4-dev-tools libqt4-dev libqt4-core libqt4-gui libgps-dev python-gps gpsd-clients  #libgtk+2.0-dev 
 #symlink to linux/videodev.h
 RUN ln -s  /usr/include/libv4l-plugin.h /usr/include/linux/videodev.h
 RUN useradd -ms /bin/bash newuser
