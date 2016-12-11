@@ -1,11 +1,26 @@
 version: '2'
 services:
+  rosdns-kinetic:
+    build: ./ROS_DNS/
+#    ports:
+#      - "80:80"
+#      - "53:53/udp"
+    networks:
+      ros_network:
+          ipv4_address: 172.25.0.101
+    env_file:
+      - docker_env_file.env
+
   roscore-kinetic:
     build: ./ROScore/
     ports: 
       - "11321:11311"
+    depends_on:
+      - rosdns-kinetic
     networks:
       - ros_network
+    env_file:
+      - docker_env_file.env
 
   gmapping-slam-kinetic:
     build: ./SLAMgmapping
@@ -13,11 +28,13 @@ services:
       - ./catkin_workspace:/workspaces/catking_workspace
     depends_on: 
       - roscore-kinetic
-    environment:
-      - ROS_MASTER_URI=http://roscore-kinetic:11311/
+#    environment:
+#      - ROS_MASTER_URI=http://roscore-kinetic:11311/
     #image: roscore
     networks:
       - ros_network
+    env_file:
+      - docker_env_file.env
 
     
   catkin_ws_client-kinetic:
@@ -27,24 +44,34 @@ services:
       - /home/Ubuntu_12.04_ROS_Hydro/home/ros/catkin_ws/src/mvcr_hal/:/catkin_ws/src/mvcr_hal/
       - /home/Ubuntu_12.04_ROS_Hydro/home/ros/catkin_ws/src/mvcr_odometry/:/catkin_ws/src/mvcr_odometry
       - /home/Ubuntu_12.04_ROS_Hydro/home/ros/catkin_ws/src/tb_master_ntb/tb_bringup/:/catkin_ws/src/tb_master_ntb/tb_bringup
+    depends_on:
+      - roscore-kinetic
     environment:
-      - ROS_MASTER_URI=http://roscore-kinetic:11311/
+#      - ROS_MASTER_URI=http://roscore-kinetic:11311/
       - "constraint:node==node-c7-a.local"
     networks:
       - ros_network
+    env_file:
+      - docker_env_file.env
 
 
   catkin_ws_client_clean-kinetic:
     build: ./CatkinWS_client_clean/
-    environment:
-      - ROS_MASTER_URI=http://roscore-kinetic:11311/
+#    environment:
+#      - ROS_MASTER_URI=http://roscore-kinetic:11311/
     volumes:
       - ./src:/catkin_ws/src
     depends_on:
       - roscore-kinetic
     networks:
       - ros_network
+    env_file:
+      - docker_env_file.env
 
 
 networks:
   ros_network:
+#    driver: bridge
+    ipam:
+      config:
+      - subnet: 172.25.0.0/16
