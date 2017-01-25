@@ -1,3 +1,9 @@
 https://sysadminops.wordpress.com/2016/01/22/docker-swarm-cluster-set-up-quickly-on-centos-7/
 
 Ve vragrantu je problem s tim, ze docker neumi routovat na vlastni interface eht1 - takze pripojovani musi mirit vzdy na jiny consul node v clusteru
+
+In case the docker does not configure properly on systems with systemd, it might be caused by pushing service file to wrong path. We can check where the system.d service file is:
+systemctl show --property=FragmentPath docker
+
+More details: http://babounehacks.blogspot.cz/2016/05/ubuntu-1604-systemd-and-docker.html
+
