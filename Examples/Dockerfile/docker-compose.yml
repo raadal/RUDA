@@ -10,6 +10,7 @@ services:
           ipv4_address: 172.25.0.101
     env_file:
       - docker_env_file.env
+    dns: 172.25.0.101
 
   roscore-kinetic:
     build: ./ROScore/
@@ -21,6 +22,7 @@ services:
       - ros_network
     env_file:
       - docker_env_file.env
+    dns: 172.25.0.101
 
   gmapping-slam-kinetic:
     build: ./SLAMgmapping
@@ -35,6 +37,7 @@ services:
       - ros_network
     env_file:
       - docker_env_file.env
+    dns: 172.25.0.101
 
     
   catkin_ws_client-kinetic:
@@ -48,11 +51,13 @@ services:
       - roscore-kinetic
     environment:
 #      - ROS_MASTER_URI=http://roscore-kinetic:11311/
-      - "constraint:node==node-c7-a.local"
+      #- "constraint:node==node-c7-a.local"
+      - "constraint:node==ubuntu"
     networks:
       - ros_network
     env_file:
       - docker_env_file.env
+    dns: 172.25.0.101
 
 
   catkin_ws_client_clean-kinetic:
@@ -67,6 +72,20 @@ services:
       - ros_network
     env_file:
       - docker_env_file.env
+    dns: 172.25.0.101
+
+  ros_vpn:
+    build: ./ROS_VPN_server/
+    ports:
+      - "1194:1194/udp"
+      - "1194:1194"
+    networks:
+      - ros_network
+    env_file:
+      - docker_env_file.env
+    dns: 172.25.0.101
+    cap_add:
+      - NET_ADMIN   
 
 
 networks:

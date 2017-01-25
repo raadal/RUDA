@@ -1,0 +1,1 @@
+Do budoucna by se mel k zsakladni registraci pridat jeste consul-template, ktery prepise host.dnsmasq pote, co se podari stroj zaregistrovat do consulu - prvotni registraci ale zajisti skript, aby nedochazelo k chybejici informaci

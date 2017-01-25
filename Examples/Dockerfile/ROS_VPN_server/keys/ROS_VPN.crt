@@ -1,0 +1,98 @@
+Certificate:
+    Data:
+        Version: 3 (0x2)
+        Serial Number: 1 (0x1)
+    Signature Algorithm: sha256WithRSAEncryption
+        Issuer: C=CZ, ST=BRQ, L=Brno, O=VUT, OU=FIT, CN=VUT CA/name=ROS_VPN/emailAddress=radimluza@email.cz
+        Validity
+            Not Before: Dec 26 09:58:55 2016 GMT
+            Not After : Dec 24 09:58:55 2026 GMT
+        Subject: C=CZ, ST=BRQ, L=Brno, O=VUT, OU=FIT, CN=ROS_VPN/name=ROS_VPN/emailAddress=radimluza@email.cz
+        Subject Public Key Info:
+            Public Key Algorithm: rsaEncryption
+                Public-Key: (2048 bit)
+                Modulus:
+                    00:e8:29:0d:d2:10:02:ae:ea:e9:db:a8:8f:a2:ed:
+                    d7:31:f8:3d:27:40:9d:a1:c1:5e:b8:b5:53:89:28:
+                    d6:8a:11:5d:37:1e:bb:96:76:81:6d:b9:3f:a0:3f:
+                    7a:db:45:63:f5:11:36:39:62:20:f4:4e:58:2d:62:
+                    97:0b:d5:a4:8e:a1:8e:c6:4e:63:1e:86:a4:8c:ab:
+                    b1:a4:06:1b:24:cd:f2:64:99:f9:a9:38:f9:6c:18:
+                    d4:ec:05:fd:8b:5c:1b:ab:75:33:c9:0a:70:b0:9e:
+                    ca:bc:5e:b1:7c:77:d5:ba:a2:d0:07:93:94:5a:95:
+                    10:52:76:90:f3:72:5d:9e:26:db:21:8e:8a:6b:9f:
+                    72:6e:a8:dd:ca:55:51:16:91:1d:b1:57:a0:13:ce:
+                    27:bb:f1:9c:46:50:9f:93:36:03:63:fc:3d:b9:2d:
+                    6b:cb:2a:81:ed:fd:26:7f:3c:96:38:16:8b:7d:5c:
+                    32:25:5d:2a:c0:15:2f:1d:6c:c1:bf:0d:a2:44:17:
+                    c7:a4:e3:31:4b:0f:1e:a5:18:c7:38:05:53:24:6b:
+                    1c:ab:ff:38:96:12:54:7e:58:97:ed:fe:5e:86:97:
+                    5b:fa:45:63:a2:c4:ac:a5:ef:d5:55:88:6f:c5:84:
+                    e9:4b:f2:95:77:d3:8f:08:77:be:5c:50:1c:d7:b5:
+                    f6:b1
+                Exponent: 65537 (0x10001)
+        X509v3 extensions:
+            X509v3 Basic Constraints: 
+                CA:FALSE
+            Netscape Cert Type: 
+                SSL Server
+            Netscape Comment: 
+                Easy-RSA Generated Server Certificate
+            X509v3 Subject Key Identifier: 
+                13:C7:CD:1C:07:CC:9F:D9:2A:5A:A3:D4:90:85:AA:2C:BE:60:06:B4
+            X509v3 Authority Key Identifier: 
+                keyid:AA:EC:16:10:43:D9:4A:D6:26:7C:93:C7:23:A7:D8:1D:A7:FB:0A:F3
+                DirName:/C=CZ/ST=BRQ/L=Brno/O=VUT/OU=FIT/CN=VUT CA/name=ROS_VPN/emailAddress=radimluza@email.cz
+                serial:86:BD:A6:B8:1F:F1:A3:94
+
+            X509v3 Extended Key Usage: 
+                TLS Web Server Authentication
+            X509v3 Key Usage: 
+                Digital Signature, Key Encipherment
+            X509v3 Subject Alternative Name: 
+                DNS:ROS_VPN
+    Signature Algorithm: sha256WithRSAEncryption
+         4c:0d:30:40:26:16:84:f2:be:95:e3:c4:1a:ae:22:9e:24:4a:
+         ed:c3:bb:43:2d:54:68:d5:3a:2a:5a:58:43:3a:37:c5:3e:21:
+         d9:5e:b3:63:d5:c1:18:af:c7:d2:23:c7:2b:45:a1:ed:a9:67:
+         86:8d:e9:58:f9:85:60:43:d6:ed:c4:19:19:a1:f9:83:38:7a:
+         b1:8f:dc:1f:01:3e:21:20:4e:6f:04:e0:64:03:ce:21:f1:57:
+         bb:b4:39:de:1d:52:04:8b:1d:77:ea:30:5c:4d:3c:b9:29:1b:
+         e3:ee:71:14:3a:d0:1c:1d:c0:39:c4:2d:cd:fa:6a:61:ac:cc:
+         e7:1b:2d:0c:4f:4d:37:74:58:57:93:59:16:d4:36:3c:81:73:
+         99:03:6b:5d:96:58:2a:82:68:c8:b3:ae:b9:28:52:c2:4a:41:
+         eb:dc:bc:0d:d4:87:d8:0f:a5:67:20:aa:42:87:bb:19:41:14:
+         6f:05:1c:7d:29:4c:23:a4:20:69:f1:ea:2b:ef:d1:b3:91:88:
+         7e:92:c7:ba:65:f3:62:10:5a:f0:71:84:e7:cb:1f:5a:63:15:
+         23:6d:32:12:2d:ec:d2:5d:39:f8:c8:7b:5d:5a:2e:33:bc:ef:
+         73:c5:4e:48:53:32:ae:f4:b1:5d:49:a7:7c:dc:e7:2f:75:0e:
+         4b:8f:9f:70
+-----BEGIN CERTIFICATE-----
+MIIFCTCCA/GgAwIBAgIBATANBgkqhkiG9w0BAQsFADCBjDELMAkGA1UEBhMCQ1ox
+DDAKBgNVBAgTA0JSUTENMAsGA1UEBxMEQnJubzEMMAoGA1UEChMDVlVUMQwwCgYD
+VQQLEwNGSVQxDzANBgNVBAMTBlZVVCBDQTEQMA4GA1UEKRQHUk9TX1ZQTjEhMB8G
+CSqGSIb3DQEJARYScmFkaW1sdXphQGVtYWlsLmN6MB4XDTE2MTIyNjA5NTg1NVoX
+DTI2MTIyNDA5NTg1NVowgY0xCzAJBgNVBAYTAkNaMQwwCgYDVQQIEwNCUlExDTAL
+BgNVBAcTBEJybm8xDDAKBgNVBAoTA1ZVVDEMMAoGA1UECxMDRklUMRAwDgYDVQQD
+FAdST1NfVlBOMRAwDgYDVQQpFAdST1NfVlBOMSEwHwYJKoZIhvcNAQkBFhJyYWRp
+bWx1emFAZW1haWwuY3owggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDo
+KQ3SEAKu6unbqI+i7dcx+D0nQJ2hwV64tVOJKNaKEV03HruWdoFtuT+gP3rbRWP1
+ETY5YiD0TlgtYpcL1aSOoY7GTmMehqSMq7GkBhskzfJkmfmpOPlsGNTsBf2LXBur
+dTPJCnCwnsq8XrF8d9W6otAHk5RalRBSdpDzcl2eJtshjoprn3JuqN3KVVEWkR2x
+V6ATzie78ZxGUJ+TNgNj/D25LWvLKoHt/SZ/PJY4Fot9XDIlXSrAFS8dbMG/DaJE
+F8ek4zFLDx6lGMc4BVMkaxyr/ziWElR+WJft/l6Gl1v6RWOixKyl79VViG/FhOlL
+8pV3048Id75cUBzXtfaxAgMBAAGjggFxMIIBbTAJBgNVHRMEAjAAMBEGCWCGSAGG
++EIBAQQEAwIGQDA0BglghkgBhvhCAQ0EJxYlRWFzeS1SU0EgR2VuZXJhdGVkIFNl
+cnZlciBDZXJ0aWZpY2F0ZTAdBgNVHQ4EFgQUE8fNHAfMn9kqWqPUkIWqLL5gBrQw
+gcEGA1UdIwSBuTCBtoAUquwWEEPZStYmfJPHI6fYHaf7CvOhgZKkgY8wgYwxCzAJ
+BgNVBAYTAkNaMQwwCgYDVQQIEwNCUlExDTALBgNVBAcTBEJybm8xDDAKBgNVBAoT
+A1ZVVDEMMAoGA1UECxMDRklUMQ8wDQYDVQQDEwZWVVQgQ0ExEDAOBgNVBCkUB1JP
+U19WUE4xITAfBgkqhkiG9w0BCQEWEnJhZGltbHV6YUBlbWFpbC5jeoIJAIa9prgf
+8aOUMBMGA1UdJQQMMAoGCCsGAQUFBwMBMAsGA1UdDwQEAwIFoDASBgNVHREECzAJ
+ggdST1NfVlBOMA0GCSqGSIb3DQEBCwUAA4IBAQBMDTBAJhaE8r6V48QariKeJErt
+w7tDLVRo1ToqWlhDOjfFPiHZXrNj1cEYr8fSI8crRaHtqWeGjelY+YVgQ9btxBkZ
+ofmDOHqxj9wfAT4hIE5vBOBkA84h8Ve7tDneHVIEix136jBcTTy5KRvj7nEUOtAc
+HcA5xC3N+mphrMznGy0MT003dFhXk1kW1DY8gXOZA2tdllgqgmjIs665KFLCSkHr
+3LwN1IfYD6VnIKpCh7sZQRRvBRx9KUwjpCBp8eor79GzkYh+kse6ZfNiEFrwcYTn
+yx9aYxUjbTISLezSXTn4yHtdWi4zvO9zxU5IUzKu9LFdSad83OcvdQ5Lj59w
+-----END CERTIFICATE-----

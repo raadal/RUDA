@@ -4,10 +4,13 @@ FROM ubuntu:16.04
 LABEL com.nvidia.volumes.needed="nvidia_driver"
 ENV PATH /usr/local/nvidia/bin:${PATH}
 ENV LD_LIBRARY_PATH /usr/local/nvidia/lib:/usr/local/nvidia/lib64:${LD_LIBRARY_PATH}
-ENV ROS_MASTER_URI http://172.17.0.1:11321/
+ENV ROS_MASTER_URI http://roscore-kinetic:11311/
+ENV ROS_DNS_SERVER=172.25.0.101
 
-RUN apt-get update && apt-get install -y lsb-release
-RUN apt-get update && apt-get install  -y lsb-release
+COPY wait_for_registration.sh /wait_for_registration.sh
+
+
+RUN apt-get update && apt-get install -y lsb-release wget
 RUN sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
 RUN apt-key adv --keyserver hkp://ha.pool.sks-keyservers.net:80 --recv-key 0xB01FA116
 RUN apt-get update
@@ -15,7 +18,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y ros-kinetic-ros-base net-t
 
 
 
-RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install -y python3-dev python3-yaml python3-setuptools ros-kinetic-rospy ros-kinetic-catkin #morse-simulator
+RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install -y python3-dev python3-yaml python3-setuptools ros-kinetic-rospy ros-kinetic-catkin ros-kinetic-control-msgs ros-kinetic-trajectory-msgs iputils-ping   #morse-simulator
 #build morse
 RUN apt-get install -y git build-essential blender telnet vim &&  git clone https://github.com/morse-simulator/morse.git && cd morse && mkdir build && cd build && cmake ../ && make install
 #install rospkg
@@ -31,7 +34,7 @@ RUN  git clone https://github.com/ros-infrastructure/catkin_pkg.git -b 0.1.9 && 
 #ENTRYPOINT /bin/bash
 
 #install other stuff
-RUN  apt-get install -y ros-kinetic-control-msgs ros-kinetic-trajectory-msgs
+#RUN  apt-get install -y ros-kinetic-control-msgs ros-kinetic-trajectory-msgs iputils-ping
 RUN useradd -ms /bin/bash newuser
 
 
@@ -43,7 +46,6 @@ RUN /bin/bash -c 'ls /opt/ros/; source /opt/ros/kinetic/setup.bash; mkdir -p /ca
 #build sources from catkin_ws
 RUN /bin/bash -c 'ls /catkin_ws/src; source /opt/ros/kinetic/setup.bash; cd /catkin_ws/; catkin_make'
 #RUN DEBIAN_FRONTEND=noninteractive apt-get install -y ros-kinetic-slam-gmapping
-
 
 #since ROS is a piese of shit when it comes to networking, we have to expose all ports
 EXPOSE 1000-65535
