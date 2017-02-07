@@ -1,6 +1,6 @@
 FROM ubuntu:16.04
 
-RUN apt-get update && apt-get install -y lsb-release openvpn easy-rsa
+RUN apt-get update && apt-get install -y lsb-release openvpn easy-rsa wget ssh-client iputils-ping && mkdir -p /dev/net/ && mknod /dev/net/run c 10 200
 #RUN mkdir /dev/net ; mknod /dev/net/tun c 10 200
 #RUN make-cadir /openvpn-ca/ca_root
 #RUN sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
@@ -14,6 +14,8 @@ RUN apt-get update && apt-get install -y lsb-release openvpn easy-rsa
 #COPY ssh_key_pair/ /ssh_key_pair/
 #COPY keys/ /etc/openvpn/keys/
 COPY client_default.ovpn /etc/openvpn/client_default.ovpn
+COPY post_start.sh  /etc/openvpn/post_start.sh
+COPY start_ovpn_client.sh /
 
 #prepare configugs and data directories for lighttpd and dnsmasq
 #RUN chown -R www-data:www-data /ssh_key_pair/; touch /etc/hosts.dnsmasq; 

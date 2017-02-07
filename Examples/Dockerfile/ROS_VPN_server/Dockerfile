@@ -1,6 +1,6 @@
 FROM ubuntu:16.04
 
-RUN apt-get update && apt-get install -y lsb-release openvpn easy-rsa bridge-utils
+RUN apt-get update && apt-get install -y lsb-release openvpn easy-rsa bridge-utils net-tools
 #RUN mkdir /dev/net ; mknod /dev/net/tun c 10 200
 #RUN make-cadir /openvpn-ca/ca_root
 #RUN sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
@@ -14,6 +14,7 @@ RUN apt-get update && apt-get install -y lsb-release openvpn easy-rsa bridge-uti
 #COPY ssh_key_pair/ /ssh_key_pair/
 COPY keys/ /etc/openvpn/keys/
 COPY server.conf /etc/openvpn/server.conf
+COPY bridge.sh /
 
 #prepare configugs and data directories for lighttpd and dnsmasq
 #RUN chown -R www-data:www-data /ssh_key_pair/; touch /etc/hosts.dnsmasq; 
@@ -29,4 +30,4 @@ COPY server.conf /etc/openvpn/server.conf
 #ENTRYPOINT source /opt/ros/jade/setup.bash; roscore
 #ENTRYPOINT /bin/bash
 #CMD /bin/bash -c 'printf "" > /etc/hosts.dnsmasq; /etc/init.d/lighttpd start ; /etc/init.d/dnsmasq start; /etc/init.d/ssh restart; while true; do cat /tmp/dns_restart_fifo >&2 ; /etc/init.d/dnsmasq restart; done'
-CMD  mkdir /dev/net ; mknod /dev/net/tun c 10 200; openvpn --cd /etc/openvpn --config /etc/openvpn/server.conf --dev tap0
+CMD  mkdir /dev/net ; mknod /dev/net/tun c 10 200;  openvpn --cd /etc/openvpn --config /etc/openvpn/server.conf --dev tap0

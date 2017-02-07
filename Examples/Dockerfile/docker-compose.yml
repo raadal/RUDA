@@ -11,6 +11,7 @@ services:
     env_file:
       - docker_env_file.env
     dns: 172.25.0.101
+    #restart: always
 
   roscore-kinetic:
     build: ./ROScore/
@@ -23,6 +24,7 @@ services:
     env_file:
       - docker_env_file.env
     dns: 172.25.0.101
+    #restart: always
 
   gmapping-slam-kinetic:
     build: ./SLAMgmapping
@@ -38,6 +40,7 @@ services:
     env_file:
       - docker_env_file.env
     dns: 172.25.0.101
+    #restart: always
 
     
   catkin_ws_client-kinetic:
@@ -52,18 +55,21 @@ services:
     environment:
 #      - ROS_MASTER_URI=http://roscore-kinetic:11311/
       #- "constraint:node==node-c7-a.local"
-      - "constraint:node==ubuntu"
+      #- "constraint:node==ubuntu"
+      - "constraint:node==swarmnode1"
     networks:
       - ros_network
     env_file:
       - docker_env_file.env
     dns: 172.25.0.101
+    #restart: always
 
 
   catkin_ws_client_clean-kinetic:
     build: ./CatkinWS_client_clean/
 #    environment:
-#      - ROS_MASTER_URI=http://roscore-kinetic:11311/
+#      - ROS_MASTER_URI=http://roscore-kinetic:11311/#
+#      - "constraint:node==swarmnode1"
     volumes:
       - ./src:/catkin_ws/src
     depends_on:
@@ -73,7 +79,41 @@ services:
     env_file:
       - docker_env_file.env
     dns: 172.25.0.101
+    #restart: always
 
+#  catkin_ws_client_clean-kinetic_station:
+#    build: ./CatkinWS_client_clean/
+#    environment:
+#       - "constraint:node==robot-UX31E"
+##      - ROS_MASTER_URI=http://roscore-kinetic:11311/
+#    volumes:
+#      - ./src:/catkin_ws/src
+#    depends_on:
+#      - roscore-kinetic
+#    networks:
+#      - ros_network
+#    env_file:
+#      - docker_env_file.env
+#    dns: 172.25.0.101
+
+#  rviz:
+#    build: ./Rviz_intel/
+#    environment:
+#      - DISPLAY=$DISPLAY 
+#      - QT_X11_NO_MITSHM=1
+#      - "constraint:node==robot-UX31E"
+#    volumes:
+#      - /tmp/.X11-unix:/tmp/.X11-unix
+#      - /dev/dri/:/dev/dri/
+#    depends_on:
+#      - roscore-kinetic
+#    networks:
+#      - ros_network
+#    env_file:
+#      - docker_env_file.env
+#    dns: 172.25.0.101
+
+ 
   ros_vpn:
     build: ./ROS_VPN_server/
     ports:
@@ -86,6 +126,7 @@ services:
     dns: 172.25.0.101
     cap_add:
       - NET_ADMIN   
+    #restart: always
 
 
 networks:
