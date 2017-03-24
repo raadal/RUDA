@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <launch>
   <!-- <node name="talker" pkg="rospy_tutorials" type="talker"  /> -->
-  <param name="/mvcr/encoder_distance_calibration" value="5000000" type="double" />
-  <param name="/mvcr/encoder_speed_calibration" value="5.0" type="double" />
-  <param name="/mvcr/encoder_turning_compensation" value="1.5" type="double" />
+  <param name="/mvcr/encoder_distance_calibration" value="5000000" type="string" />
+  <param name="/mvcr/encoder_speed_calibration" value="5.0" type="string" />
+  <param name="/mvcr/encoder_turning_compensation" value="1.5" type="string" />
 
   <!-- upload robot description to parameter server -->
   <include file="$(find mvcr_robot_description)/launch/upload_robot.launch"/>
