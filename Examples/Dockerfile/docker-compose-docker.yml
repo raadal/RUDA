@@ -1,0 +1,161 @@
+version: '3'
+services:
+  rosdns-kinetic:
+#    build: ./ROS_DNS/
+    image: 10.42.0.20:5000/rosdns-kinetic
+#    ports:
+#      - "80:80"
+#      - "53:53/udp"
+    networks:
+      ros_network:
+          ipv4_address: 172.25.0.101
+    env_file:
+      - docker_env_file.env
+    #dns: 172.25.0.101
+    #restart: always
+
+  roscore-kinetic:
+    #build: ./ROScore/
+    image: 10.42.0.20:5000/roscore-kinetic
+    ports: 
+      - "11321:11311"
+    depends_on:
+      - rosdns-kinetic
+    networks:
+      - ros_network
+    env_file:
+      - docker_env_file.env
+    #dns: 172.25.0.101
+    #restart: always
+
+  gmapping-slam-kinetic:
+    #build: ./SLAMgmapping
+    image: 10.42.0.20:5000/gmapping-slam-kinetic
+    #volumes: 
+      #- ./catkin_workspace:/workspaces/catking_workspace
+    depends_on: 
+      - roscore-kinetic
+##    environment:
+##      - ROS_MASTER_URI=http://roscore-kinetic:11311/
+    ##image: roscore
+    networks:
+      - ros_network
+    env_file:
+      - docker_env_file.env
+    #dns: 172.25.0.101
+    ##restart: always
+
+    
+  catkin_ws_client-kinetic:
+    #build: ./CatkinWS_client/
+    image: 10.42.0.20:5000/kinetic_catkinws
+    #volumes: 
+      #- /home/Ubuntu_12.04_ROS_Hydro/home/ros/catkin_ws/src/mvcr_robot_description/:/catkin_ws/src/mvcr_robot_description/
+      #- /home/Ubuntu_12.04_ROS_Hydro/home/ros/catkin_ws/src/mvcr_hal/:/catkin_ws/src/mvcr_hal/
+      #- /home/Ubuntu_12.04_ROS_Hydro/home/ros/catkin_ws/src/mvcr_odometry/:/catkin_ws/src/mvcr_odometry
+      #- /home/Ubuntu_12.04_ROS_Hydro/home/ros/catkin_ws/src/tb_master_ntb/tb_bringup/:/catkin_ws/src/tb_master_ntb/tb_bringup
+    depends_on:
+      - roscore-kinetic
+    #environment:
+##      - ROS_MASTER_URI=http://roscore-kinetic:11311/
+      ##- "constraint:node==node-c7-a.local"
+      #- "constraint:node==ubuntu"
+    networks:
+      - ros_network
+    env_file:
+      - docker_env_file.env
+    #dns: 172.25.0.101
+    ##restart: always
+
+
+  #catkin_ws_client_clean-kinetic:
+    #build: ./CatkinWS_client_clean/
+    #image: kinetic_catkinws_clean
+##    environment:
+##      - ROS_MASTER_URI=http://roscore-kinetic:11311/
+    #volumes:
+      #- ./src:/catkin_ws/src
+    #depends_on:
+      #- roscore-kinetic
+    #networks:
+      #- ros_network
+    #env_file:
+      #- docker_env_file.env
+    #dns: 172.25.0.101
+    ##restart: always
+
+  #catkin_ws_client_clean-kinetic_station:
+    #build: ./CatkinWS_client_clean/
+    #image: cws_station
+    #environment:
+       #- "constraint:node==robot-UX31E"
+##      - ROS_MASTER_URI=http://roscore-kinetic:11311/
+    #volumes:
+      #- ./src:/catkin_ws/src
+    #depends_on:
+      #- roscore-kinetic
+    #networks:
+      #- ros_network
+    #env_file:
+      #- docker_env_file.env
+    #dns: 172.25.0.101
+
+#  rviz:
+#    build: ./Rviz_intel/
+#    environment:
+#      - DISPLAY=$DISPLAY 
+#      - QT_X11_NO_MITSHM=1
+#      - "constraint:node==robot-UX31E"
+#    volumes:
+#      - /tmp/.X11-unix:/tmp/.X11-unix
+#      - /dev/dri/:/dev/dri/
+#    depends_on:
+#      - roscore-kinetic
+#    networks:
+#      - ros_network
+#    env_file:
+#      - docker_env_file.env
+#    dns: 172.25.0.101
+
+ 
+#  ros_vpn:
+#    build: ./ROS_VPN_server/
+#    ports:
+#      - "1194:1194/udp"
+#      - "1194:1194"
+#    networks:
+#      - ros_network
+#    env_file:
+#      - docker_env_file.env
+#    dns: 172.25.0.101
+#    cap_add:
+#      - NET_ADMIN   
+#    #restart: always
+
+#  catkin_ws_client_clean-kinetic:
+#    #build: ./CatkinWS_client_clean/
+#    image: 10.42.0.20:5000/hal-server
+#    ports:
+#      - "9191:9191/udp"
+##    environment:
+##      - ROS_MASTER_URI=http://roscore-kinetic:11311/
+#    #volumes:
+#      #- ./src:/catkin_ws/src
+#    #depends_on:
+#      #- roscore-kinetic
+#    networks:
+#      - ros_network
+#    env_file:
+#      - docker_env_file.env
+#    #dns: 172.25.0.101
+#    ##restart: always
+
+
+
+networks:
+  ros_network:
+#    external: true
+    driver: overlay
+    ipam:
+      config:
+        - subnet: 172.25.0.0/16
