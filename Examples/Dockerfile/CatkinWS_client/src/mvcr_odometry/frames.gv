@@ -1,0 +1,6 @@
+digraph G {
+"base_footprint" -> "base_link"[label="Broadcaster: /robot_state_publisher\nAverage rate: 20.201 Hz\nMost recent transform: 1399987505.656 \nBuffer length: 4.950 sec\n"];
+"base_link" -> "laser"[label="Broadcaster: /robot_state_publisher\nAverage rate: 20.201 Hz\nMost recent transform: 1399987505.656 \nBuffer length: 4.950 sec\n"];
+"base_link" -> "left_track_link"[label="Broadcaster: /robot_state_publisher\nAverage rate: 20.201 Hz\nMost recent transform: 1399987505.656 \nBuffer length: 4.950 sec\n"];
+"base_link" -> "right_track_link"[label="Broadcaster: /robot_state_publisher\nAverage rate: 20.201 Hz\nMost recent transform: 1399987505.656 \nBuffer length: 4.950 sec\n"];
+}

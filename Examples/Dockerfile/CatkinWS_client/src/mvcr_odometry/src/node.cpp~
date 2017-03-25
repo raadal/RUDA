@@ -1,0 +1,127 @@
+#include "ros/ros.h"
+//#include "nav_msgs/Odometry.h"
+#include <tf/transform_broadcaster.h>
+#include <tf/transform_listener.h>
+#include <sstream>
+#include <HAL/API/MovementSvc_DBus.h>
+#include <Poco/SharedPtr.h>
+#include "Poco/Util/ServerApplication.h"
+#include "Poco/Timer.h"
+#include "Poco/Delegate.h"
+
+
+
+static volatile double left_encoder= 0;
+static volatile double right_encoder= 0;
+static volatile double left_speed= 0;
+static volatile double right_speed= 0;
+
+
+
+
+#define ENCODER_STEPS_PER_METER 476110.0
+
+
+void onSpeedChanged(HAL::API::IMovement::StatusChangedArg & arg){
+        std::cout << "Speed: (" << arg.speedLeft << " " << arg.speedRight << ")" << std::endl ;
+  ROS_INFO("Left speed: %f", arg.speedLeft);
+  //update actual data from encoders
+  left_speed= arg.speedLeft;
+  right_speed= arg.speedRight;
+  left_encoder = arg.posLeft/ENCODER_STEPS_PER_METER;
+  right_encoder = arg.posRight/ENCODER_STEPS_PER_METER;
+  
+   std::cout << "Possition: (" << left_encoder << " " << right_encoder << ")" <<  std::endl;
+}
+
+//                        waitForTerminationRequest();
+//                        client->Movement().StatusChanged -= Poco::delegate(&onSpeedChanged);
+
+
+
+
+
+
+/**
+ * This tutorial demonstrates simple sending of messages over the ROS system.
+ */
+int main(int argc, char **argv)
+{
+  ros::init(argc, argv, "mvcr_odometry");
+
+  ros::NodeHandle n;
+
+  ros::Rate loop_rate(10); //delay between iterations
+
+  tf::TransformListener listener; //listener for transformation between tracks in robot model
+
+  HAL::API::DBus::Client::Ptr client = new HAL::API::DBus::Client();
+  client->Movement().StatusChanged += Poco::delegate(&onSpeedChanged);
+
+  ros::Time last_computation = ros::Time::now();
+
+  //initial values
+  double initial_pos_x =0.0;
+  double initial_pos_y =0.0;
+  double initial_rotation =0.0;
+  
+  
+  //last values:
+  double last_pos_x = 0;
+  double last_pos_y = 0;
+  double last_rotation = 0;
+
+
+  while (ros::ok())
+  {
+    //get distance between tracks
+    double distance_between_tracks = 0;
+    tf::StampedTransform transform_in;
+    try{
+      ros::Time now = ros::Time::now();
+      listener.waitForTransform("/left_track_link", "/right_track_link",
+                              now, ros::Duration(3.0));
+      listener.lookupTransform("/left_track_link", "/right_track_link",
+                               now/*ros::Time(0) - jakakoliv posledni transformace */, transform_in);
+    }
+    catch (tf::TransformException ex){
+      ROS_ERROR("%s",ex.what());
+    }
+    distance_between_tracks = transform_in.getOrigin().y();
+    //ROS_INFO("iteration"); 
+    //compute odometry 
+    //according to: http://rossum.sourceforge.net/papers/DiffSteer/
+
+    ros::Time current_time = ros::Time::now();
+    double time_sec =  (current_time - last_computation).toSec() ;
+    double x_pos_delta =  initial_pos_x + distance_between_tracks*(right_speed+ left_speed)/ (2.0*(right_speed-left_speed) ) * ( sin ( (right_speed - left_speed) * time_sec/ distance_between_tracks + last_rotation ) - sin(last_rotation) );
+    double y_pos_delta =  initial_pos_y + distance_between_tracks*(right_speed+ left_speed)/ (2.0*(right_speed-left_speed) ) * ( cos ( (right_speed - left_speed) * time_sec/ distance_between_tracks + last_rotation ) - cos(last_rotation) );
+
+    last_rotation = (right_encoder - left_encoder)/distance_between_tracks + last_rotation;
+
+    double total_distance = (right_encoder + left_encoder) / 2.0;
+    last_pos_x = total_distance *cos(last_rotation) + initial_pos_x; //we use updated rotation here
+    last_pos_y = total_distance * sin(last_rotation) + initial_pos_y;
+    last_computation = ros::Time::now(); 
+   
+   
+    //broadcast transform from /odom to /base_footprint 
+    static tf::TransformBroadcaster br;
+    tf::Transform transform;
+    transform.setOrigin( tf::Vector3(last_pos_x, last_pos_y, 0.0) ); //position X,Y
+    tf::Quaternion q;
+    q.setRPY(0, 0, last_rotation); //rotation
+    transform.setRotation(q);
+    br.sendTransform(tf::StampedTransform(transform, ros::Time::now(), "/odom", "/base_footprint"));
+
+//    ROS_INFO("%s", msg.data.c_str());
+
+
+    ros::spinOnce(); //do the ROS stuff
+
+    loop_rate.sleep(); //wait before  next iteration
+  }
+
+
+  return 0;
+}

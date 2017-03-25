@@ -1,0 +1,39 @@
+v ~/git/fit-mbot:
+	aktualizace: git pull
+	cmake CMakeLists.txt
+	make
+Spusteni: 
+	slozka cbuild
+	-pod rootem:
+	./bin.HAL.Server -mode=virtual //bezi ciste server bez nutnosti HW
+	./bin.HAL.Client 
+
+	Skutectny HW:
+		-modry prevodnik USB2UARt - musi byt /dev/ttyUSB0
+		-musi byt zapnute zdroje - 220 i 48V
+		./bin.HAL.Client -mode=real
+
+
+
+Krok otoceni kola:
+=================
+Enkoder:
+zac. 1825833
+kon. 2094833
+rozd. 269000
+
+
+Obvod kola:
+180mm prumer
+obvod: 0.565m
+
+pocet impulsu na metr:
+4.7611e+05
+
+Impulsy na metr:
+================
+476110
+
+Zeptat se pani malaskove - pristup S110
+	-bude podepsano doc. Hanackem
+ 

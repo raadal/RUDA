@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<launch>
+  <!-- odometry driver  - uses wrapper that sets LD_LIBRARY_PATH properly -->
+  <node name="odometry_node" pkg="mvcr_odometry" type="mvcr_odometry_node" respawn="true" /> -->
+ 
+</launch>
+

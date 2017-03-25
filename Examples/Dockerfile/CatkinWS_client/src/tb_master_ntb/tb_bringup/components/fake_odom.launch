@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<launch>
+
+  <node pkg="tf" name="fake_odom" type="static_transform_publisher" output="screen" args="0 0 0 0 0 0 /odom_combined /base_footprint 20" >
+  </node>
+  
+  
+</launch>
