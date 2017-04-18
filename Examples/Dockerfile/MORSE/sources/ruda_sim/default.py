@@ -47,12 +47,19 @@ pose = Pose()
 robot.append(pose)
 
 
+#PTU
+ptu = PTU()
+ptu.translate(0,0.6,0)
+ptu.rotate(0,0,0)
+#ptu.add_interface(<interface>)
+robot.append(ptu)
+
 #LIDAR
 lidar = Sick()
 #lidar.properties(resolution = 5) #what do these parameters mean?
 #lidar.properties(scan_window=90)
 lidar.properties(laser_range= 30.0)
-robot.append(lidar)
+ptu.append(lidar)
 
 
 #cameras:

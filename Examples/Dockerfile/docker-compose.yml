@@ -96,22 +96,22 @@ services:
 #      - docker_env_file.env
 #    dns: 172.25.0.101
 
-#  rviz:
-#    build: ./Rviz_intel/
-#    environment:
-#      - DISPLAY=$DISPLAY 
-#      - QT_X11_NO_MITSHM=1
+  rviz:
+    build: ./Rviz_intel/
+    environment:
+      - DISPLAY=$DISPLAY 
+      - QT_X11_NO_MITSHM=1
 #      - "constraint:node==robot-UX31E"
-#    volumes:
-#      - /tmp/.X11-unix:/tmp/.X11-unix
-#      - /dev/dri/:/dev/dri/
-#    depends_on:
-#      - roscore-kinetic
-#    networks:
-#      - ros_network
-#    env_file:
-#      - docker_env_file.env
-#    dns: 172.25.0.101
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - /dev/dri/:/dev/dri/
+    depends_on:
+      - roscore-kinetic
+    networks:
+      - ros_network
+    env_file:
+      - docker_env_file.env
+    dns: 172.25.0.101
 
  
   ros_vpn:

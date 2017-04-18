@@ -1,5 +1,6 @@
 FROM ubuntu:16.04
 
+EXPOSE 1194
 RUN apt-get update && apt-get install -y lsb-release openvpn easy-rsa bridge-utils net-tools
 #RUN mkdir /dev/net ; mknod /dev/net/tun c 10 200
 #RUN make-cadir /openvpn-ca/ca_root
@@ -30,4 +31,4 @@ COPY bridge.sh /
 #ENTRYPOINT source /opt/ros/jade/setup.bash; roscore
 #ENTRYPOINT /bin/bash
 #CMD /bin/bash -c 'printf "" > /etc/hosts.dnsmasq; /etc/init.d/lighttpd start ; /etc/init.d/dnsmasq start; /etc/init.d/ssh restart; while true; do cat /tmp/dns_restart_fifo >&2 ; /etc/init.d/dnsmasq restart; done'
-CMD  mkdir /dev/net ; mknod /dev/net/tun c 10 200;  openvpn --cd /etc/openvpn --config /etc/openvpn/server.conf --dev tap0
+CMD  mkdir /dev/net ; mknod /dev/net/tun c 10 200;  export IP_ADDR=$(ip addr show dev eth0 | grep 'inet ' | cut -d' ' -f 6); brctl addbr br0;  brctl addif br0 eth0; ip addr add $IP_ADDR dev br0; ifconfig eth0 0.0.0.0; ifconfig br0 up; openvpn --cd /etc/openvpn --config /etc/openvpn/server.conf --dev tap0

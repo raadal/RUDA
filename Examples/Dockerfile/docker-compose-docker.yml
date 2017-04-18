@@ -100,21 +100,23 @@ services:
       #- docker_env_file.env
     #dns: 172.25.0.101
 
-#  rviz:
+  rviz:
 #    build: ./Rviz_intel/
-#    environment:
-#      - DISPLAY=$DISPLAY 
-#      - QT_X11_NO_MITSHM=1
-#      - "constraint:node==robot-UX31E"
-#    volumes:
-#      - /tmp/.X11-unix:/tmp/.X11-unix
-#      - /dev/dri/:/dev/dri/
-#    depends_on:
-#      - roscore-kinetic
-#    networks:
-#      - ros_network
-#    env_file:
-#      - docker_env_file.env
+    image: 10.42.0.20:5000/kinetic_rviz
+    environment:
+      - DISPLAY=$DISPLAY 
+      - QT_X11_NO_MITSHM=1
+      #- "constraint:node==r-ThinkPad-W510"
+      - "constraint:node==robot-UX31E"
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - /dev/dri/:/dev/dri/
+    depends_on:
+      - roscore-kinetic
+    networks:
+      - ros_network
+    env_file:
+      - docker_env_file.env
 #    dns: 172.25.0.101
 
  

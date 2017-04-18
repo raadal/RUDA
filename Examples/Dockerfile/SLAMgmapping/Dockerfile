@@ -8,6 +8,6 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y ros-kinetic-ros-base
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y ros-kinetic-slam-gmapping
 
-#CMD /bin/bash -c 'source /opt/ros/kinetic/setup.bash; rosrun gmapping slam_gmapping'
-CMD /bin/bash -c 'wget http://${ROS_DNS_SERVER}/register.sh;  bash register.sh;  source /opt/ros/kinetic/setup.bash; rosrun gmapping slam_gmapping'
+CMD /bin/bash -c 'source /opt/ros/kinetic/setup.bash; rosrun gmapping slam_gmapping'
+#CMD /bin/bash -c 'wget http://${ROS_DNS_SERVER}/register.sh;  bash register.sh;  source /opt/ros/kinetic/setup.bash; rosrun gmapping slam_gmapping'
 

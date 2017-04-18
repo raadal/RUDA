@@ -7,7 +7,7 @@ RUN apt-get update
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y ros-kinetic-ros-base
 
 #build tools
-RUN apt-get update && apt-get install -y build-essential ros-kinetic-tf2-msgs ros-kinetic-tf libdbus-1-dev libopencv-dev ros-kinetic-urdf ros-kinetic-urdf-parser-plugin liburdfdom-dev ros-kinetic-xacro libsdl-dev ros-kinetic-robot-state-publisher libssl-dev ros-kinetic-lms1xx libdbus-1-dev libdbus-cpp-dev libopencv-dev qtbase5-dev libpoco-dev libssl-dev libsdl-dev qtscript5-dev ros-kinetic-gpsd-client ros-kinetic-gps-common ros-kinetic-turtlebot-navigation ros-kinetic-turtlebot-description
+RUN apt-get update && apt-get install -y build-essential ros-kinetic-tf2-msgs ros-kinetic-tf libdbus-1-dev libopencv-dev ros-kinetic-urdf ros-kinetic-urdf-parser-plugin liburdfdom-dev ros-kinetic-xacro libsdl-dev ros-kinetic-robot-state-publisher libssl-dev ros-kinetic-lms1xx libdbus-1-dev libdbus-cpp-dev libopencv-dev qtbase5-dev libpoco-dev libssl-dev libsdl-dev qtscript5-dev ros-kinetic-gpsd-client ros-kinetic-gps-common ros-kinetic-turtlebot-navigation ros-kinetic-turtlebot-description ros-kinetic-roslint
 
 #add entrypoint launchfile
 RUN mkdir /launch
@@ -29,5 +29,5 @@ RUN /bin/bash -c 'ls /catkin_ws/src; source /opt/ros/kinetic/setup.bash; cd /cat
 
 #CMD /bin/bash -c 'ls /catkin_ws/src/ >&2; source /catkin_ws/devel/setup.bash; cd /catkin_ws; catkin_make >&2; roslaunch --wait /launch/entrypoint.launch'
 #CMD /bin/bash -c 'wget http://${ROS_DNS_SERVER}/register.sh;  bash register.sh; ls /catkin_ws/src/ >&2; source /catkin_ws/devel/setup.bash; cd /catkin_ws; catkin_make >&2; roslaunch --wait /launch/entrypoint.launch'
-CMD /bin/bash -c 'while true; do sleep 1; done; ls /catkin_ws/src/ >&2; source /catkin_ws/devel/setup.bash; cd /catkin_ws; catkin_make >&2; while true; do sleep 1; done;  roslaunch --wait /launch/entrypoint.launch'
+CMD /bin/bash -c 'source /catkin_ws/devel/setup.bash; cd /catkin_ws; catkin_make >&2;  roslaunch --wait /launch/entrypoint.launch'
 

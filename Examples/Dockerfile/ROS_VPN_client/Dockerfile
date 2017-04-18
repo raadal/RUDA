@@ -1,6 +1,6 @@
 FROM ubuntu:16.04
 
-RUN apt-get update && apt-get install -y lsb-release openvpn easy-rsa wget ssh-client iputils-ping && mkdir -p /dev/net/ && mknod /dev/net/run c 10 200
+RUN apt-get update && apt-get install -y lsb-release openvpn easy-rsa wget ssh-client iputils-ping isc-dhcp-client
 #RUN mkdir /dev/net ; mknod /dev/net/tun c 10 200
 #RUN make-cadir /openvpn-ca/ca_root
 #RUN sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'

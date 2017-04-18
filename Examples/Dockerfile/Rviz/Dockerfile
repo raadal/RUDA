@@ -6,12 +6,15 @@ ENV PATH /usr/local/nvidia/bin:${PATH}
 ENV LD_LIBRARY_PATH /usr/local/nvidia/lib:/usr/local/nvidia/lib64:${LD_LIBRARY_PATH}
 ENV ROS_MASTER_URI http://172.17.0.1:11321/
 
-RUN apt-get update && apt-get install -y lsb-release wget
+RUN apt-get update && apt-get install -y lsb-release openvpn easy-rsa wget ssh-client iputils-ping isc-dhcp-client
 RUN sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
 RUN apt-key adv --keyserver hkp://ha.pool.sks-keyservers.net:80 --recv-key 0xB01FA116
 RUN apt-get update
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y ros-kinetic-ros-base net-tools 
 
+COPY client_default.ovpn /etc/openvpn/client_default.ovpn
+COPY post_start.sh  /etc/openvpn/post_start.sh
+COPY start_ovpn_client.sh /
 
 
 #RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install -y python3-dev python3-yaml python3-setuptools ros-kinetic-rospy ros-kinetic-catkin #morse-simulator
