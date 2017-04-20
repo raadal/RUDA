@@ -43,26 +43,26 @@ services:
     #restart: always
 
     
-  catkin_ws_client-kinetic:
-    build: ./CatkinWS_client/
-    volumes: 
-      - /home/Ubuntu_12.04_ROS_Hydro/home/ros/catkin_ws/src/mvcr_robot_description/:/catkin_ws/src/mvcr_robot_description/
-      - /home/Ubuntu_12.04_ROS_Hydro/home/ros/catkin_ws/src/mvcr_hal/:/catkin_ws/src/mvcr_hal/
-      - /home/Ubuntu_12.04_ROS_Hydro/home/ros/catkin_ws/src/mvcr_odometry/:/catkin_ws/src/mvcr_odometry
-      - /home/Ubuntu_12.04_ROS_Hydro/home/ros/catkin_ws/src/tb_master_ntb/tb_bringup/:/catkin_ws/src/tb_master_ntb/tb_bringup
-    depends_on:
-      - roscore-kinetic
-    environment:
-#      - ROS_MASTER_URI=http://roscore-kinetic:11311/
-      #- "constraint:node==node-c7-a.local"
-      #- "constraint:node==ubuntu"
-      - "constraint:node==swarmnode1"
-    networks:
-      - ros_network
-    env_file:
-      - docker_env_file.env
-    dns: 172.25.0.101
-    #restart: always
+#  catkin_ws_client-kinetic:
+#    build: ./CatkinWS_client/
+#    volumes: 
+#      - /home/Ubuntu_12.04_ROS_Hydro/home/ros/catkin_ws/src/mvcr_robot_description/:/catkin_ws/src/mvcr_robot_description/
+#      - /home/Ubuntu_12.04_ROS_Hydro/home/ros/catkin_ws/src/mvcr_hal/:/catkin_ws/src/mvcr_hal/
+#      - /home/Ubuntu_12.04_ROS_Hydro/home/ros/catkin_ws/src/mvcr_odometry/:/catkin_ws/src/mvcr_odometry
+#      - /home/Ubuntu_12.04_ROS_Hydro/home/ros/catkin_ws/src/tb_master_ntb/tb_bringup/:/catkin_ws/src/tb_master_ntb/tb_bringup
+#    depends_on:
+#      - roscore-kinetic
+#    environment:
+##      - ROS_MASTER_URI=http://roscore-kinetic:11311/
+#      #- "constraint:node==node-c7-a.local"
+#      #- "constraint:node==ubuntu"
+#      - "constraint:node==swarmnode1"
+#    networks:
+#      - ros_network
+#    env_file:
+#      - docker_env_file.env
+#    dns: 172.25.0.101
+#    #restart: always
 
 
   catkin_ws_client_clean-kinetic:
@@ -96,22 +96,22 @@ services:
 #      - docker_env_file.env
 #    dns: 172.25.0.101
 
-  rviz:
-    build: ./Rviz_intel/
-    environment:
-      - DISPLAY=$DISPLAY 
-      - QT_X11_NO_MITSHM=1
-#      - "constraint:node==robot-UX31E"
-    volumes:
-      - /tmp/.X11-unix:/tmp/.X11-unix
-      - /dev/dri/:/dev/dri/
-    depends_on:
-      - roscore-kinetic
-    networks:
-      - ros_network
-    env_file:
-      - docker_env_file.env
-    dns: 172.25.0.101
+#  rviz:
+#    build: ./Rviz_intel/
+#    environment:
+#      - DISPLAY=$DISPLAY 
+#      - QT_X11_NO_MITSHM=1
+##      - "constraint:node==robot-UX31E"
+#    volumes:
+#      - /tmp/.X11-unix:/tmp/.X11-unix
+#      - /dev/dri/:/dev/dri/
+#    depends_on:
+#      - roscore-kinetic
+#    networks:
+#      - ros_network
+#    env_file:
+#      - docker_env_file.env
+#    dns: 172.25.0.101
 
  
   ros_vpn:

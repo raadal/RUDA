@@ -4,7 +4,9 @@ FROM ubuntu:16.04
 LABEL com.nvidia.volumes.needed="nvidia_driver"
 ENV PATH /usr/local/nvidia/bin:${PATH}
 ENV LD_LIBRARY_PATH /usr/local/nvidia/lib:/usr/local/nvidia/lib64:${LD_LIBRARY_PATH}
-ENV ROS_MASTER_URI http://172.17.0.1:11321/
+ENV ROS_MASTER_URI http://roscore-kinetic:11311/
+ENV ROS_DNS_SERVER=172.25.0.101
+
 
 RUN apt-get update && apt-get install -y lsb-release openvpn easy-rsa wget ssh-client iputils-ping isc-dhcp-client
 RUN sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
